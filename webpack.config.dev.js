@@ -87,7 +87,8 @@ module.exports = {
       host: 'localhost',
       port: 3000,
       files: ['./dist/*.html', './dist/*.css', './dist/*.js'],
-      server: { baseDir: ['dist'] }
+      server: { baseDir: ['dist'] },
+      single: true
     }),
   ],
   
