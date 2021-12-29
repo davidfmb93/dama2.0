@@ -30459,20 +30459,48 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "checkRoutePath": () => (/* binding */ checkRoutePath)
 /* harmony export */ });
 var render = function (route) {
-    var exts = ['ts', 'tsx', 'scss', 'js'];
+    var exts = ['ts', 'tsx', 'js', 'scss'];
     var type = route.hasOwnProperty('page') ? 'pages' : (route.hasOwnProperty('component') ? 'components' : null);
     exts.map(function (ext) { return renderElement(route, type, ext); });
 };
 var renderElement = function (route, type, ext) {
     try {
+        renderElementExternal(route, type, ext);
         route.hasOwnProperty('page') && __webpack_require__("./src sync recursive ^\\.\\/.*$")("./".concat(type, "/").concat(route.page, "/").concat(route.page, ".").concat(ext)).page();
-        console.warn("Element loaded: ".concat(type, ".").concat(route.page, ".").concat(ext));
+        console.warn("Element Internal loaded: ".concat(type, ".").concat(route.page, ".").concat(ext));
+    }
+    catch (error) {
+        return;
+    }
+};
+var renderElementExternal = function (route, type, ext) {
+    try {
+        route.hasOwnProperty('page') && __webpack_require__("./src sync recursive ^\\.\\/.*$")("./".concat(type, "/").concat(route.page, ".").concat(ext)).page();
+        console.warn("Element External loaded: ".concat(type, ".").concat(route.page, ".").concat(ext));
     }
     catch (error) {
         return;
     }
 };
 var checkRoutePath = function (itemPath) { return window.location.pathname === itemPath; };
+
+
+/***/ }),
+
+/***/ "./src/components/example.ts":
+/*!***********************************!*\
+  !*** ./src/components/example.ts ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "component": () => (/* binding */ component)
+/* harmony export */ });
+var component = function () {
+    console.warn('Component TS Example Dama');
+};
 
 
 /***/ }),
@@ -30515,6 +30543,24 @@ var component = function () {
         react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", null,
             "Date : ",
             new Date().toDateString())));
+};
+
+
+/***/ }),
+
+/***/ "./src/pages/example.ts":
+/*!******************************!*\
+  !*** ./src/pages/example.ts ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "page": () => (/* binding */ page)
+/* harmony export */ });
+var page = function () {
+    console.warn('Page TS Example Dama');
 };
 
 
@@ -30925,11 +30971,15 @@ module.exports = webpackEmptyContext;
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var map = {
+	"./components/example": "./src/components/example.ts",
+	"./components/example.ts": "./src/components/example.ts",
 	"./components/example/example": "./src/components/example/example.tsx",
 	"./components/example/example.js": "./src/components/example/example.js",
 	"./components/example/example.scss": "./src/components/example/example.scss",
 	"./components/example/example.ts": "./src/components/example/example.ts",
 	"./components/example/example.tsx": "./src/components/example/example.tsx",
+	"./pages/example": "./src/pages/example.ts",
+	"./pages/example.ts": "./src/pages/example.ts",
 	"./pages/example/example": "./src/pages/example/example.tsx",
 	"./pages/example/example.scss": "./src/pages/example/example.scss",
 	"./pages/example/example.ts": "./src/pages/example/example.ts",
