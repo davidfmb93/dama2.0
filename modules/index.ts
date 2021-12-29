@@ -1,29 +1,36 @@
-// IMPORT ROUTES 
-const { routes } = require(`/src/ts/config/routes.ts`)
-require(`/src/sass/global.scss`)
+import { global } from './../src/services/global'
+import { middleware } from './../src/services/middleware'
+import { DamaRoutes } from './../src/routes'
+import { render, checkRoutePath } from './src/functions'
 
-let route: any = routes.find( (item: any) => {
-	const responseItem:boolean = Array.isArray(item.path) ?
-		item.path.some( (itemPath:string) => checkRoutePath(itemPath) ) :
-		checkRoutePath(item.path)
+// require(`./../src/styles/global.scss`)
 
-	return responseItem
-})
 
-// Check route with location pathname
-function checkRoutePath( itemPath:any ):boolean {
-	return window.location.pathname === itemPath
+
+
+
+const dama = async () => {
+	await middleware()
+	global() 
+	configRoutes()
 }
 
-require(`/src/ts/services/general.ts`).page()
-// require(`datalayers.ts`)
-// console.log( route.hasOwnProperty('page') ? 'has page' : 'has not page' )
-if(route){
-    route.hasOwnProperty('page') ? require(`/src/ts/pages/${route.page}.tsx`).page() : require(`/src/ts/pages/${route.component}.tsx`).component()
-    route.hasOwnProperty('page') ?? require(`/src/sass/pages/${route.page}.scss`)
-}else{
-    routeDontFound()
+dama()
+
+
+const configRoutes = () => {
+	//Found route respect path
+	let route: any = DamaRoutes.find( (item: any) => Array.isArray(item.path) ? item.path.some( (itemPath:string) => checkRoutePath(itemPath) ) : checkRoutePath(item.path))
+	
+	console.log('route:::', route)
+	
+	if(route){
+		render(route)
+	}else{
+		// routeDontFound()
+	}
 }
+
 
 /**
  * dinamicRoutes
@@ -33,7 +40,7 @@ if(route){
  * @returns 
  */
 function dinamicRoutes(){
-	let otherRoutes:any = routes.filter((item: any) => item.path.includes(':'))
+	let otherRoutes:any = DamaRoutes.filter((item: any) => item.path.includes(':'))
 	let getRouteCurrent:any = location.pathname.split('/')
 	let request:object = {}
 	otherRoutes.map( (route: any) => request = getRouteCurrent[1] == (route.path.split('/'))[1] ? { 'status': true, 'route': route} : { 'status': false })
@@ -51,3 +58,5 @@ function routeDontFound(){
 	const dinamic: any = dinamicRoutes();
 	dinamic.status && require(`/src/ts/components/${dinamic.route.component}.ts`).page()
 }
+
+

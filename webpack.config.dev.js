@@ -10,7 +10,7 @@ module.exports = {
   entry: {
     main: [
       './modules/index.ts',
-      './src/sass/global.scss'
+      './src/styles/main.scss'
     ],
   },
   output: {
